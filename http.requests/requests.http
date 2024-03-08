@@ -1,0 +1,16 @@
+### Entity creation request
+POST http://localhost:8080/businessEntities
+Accept: application/json
+Content-type: application/json
+
+{
+  "field": "value"
+}
+
+### Get all entities
+GET http://localhost:8080/businessEntities
+Accept: application/json
+
+### Get entity by ID
+GET http://localhost:8080/businessEntities/{{entityId}}
+Accept: application/json
