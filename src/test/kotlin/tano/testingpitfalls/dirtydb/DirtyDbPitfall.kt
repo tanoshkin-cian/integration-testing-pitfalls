@@ -1,10 +1,7 @@
 package tano.testingpitfalls.dirtydb
 
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.DisplayName
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.fail
+import org.junit.jupiter.api.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.server.LocalServerPort
@@ -23,6 +20,7 @@ import tano.testingpitfalls.test.SystemUnderTest
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Testcontainers
+@TestMethodOrder(MethodOrderer.MethodName::class) // in order to reproduce assertion problem in a stable way
 class DirtyDbPitfall {
 
     @LocalServerPort
@@ -41,7 +39,8 @@ class DirtyDbPitfall {
 
     @BeforeEach
     fun setUp() {
-        systemUnderTest.cleanDb()
+//        TODO: uncomment next line to fix the tests
+//        systemUnderTest.cleanDb()
         restClient = RestClient.create("http://localhost:$serverPort")
     }
 
@@ -68,13 +67,13 @@ class DirtyDbPitfall {
         // given
         val creationResponse =
             restClient.post().uri("/persons").body(mapOf("name" to "John Doe")).retrieve().toEntity<Person>()
-        assertThat(creationResponse.statusCode).isEqualTo(HttpStatusCode.valueOf(200) )
+        assertThat(creationResponse.statusCode).isEqualTo(HttpStatusCode.valueOf(200))
         val createdId = creationResponse.body?.id ?: fail { "Created person ID could not be null" }
 
         // when
         val removalResponse =
             restClient.delete().uri("/persons/{createdId}", createdId).retrieve().toBodilessEntity()
-        assertThat(removalResponse.statusCode).isEqualTo(HttpStatusCode.valueOf(200) )
+        assertThat(removalResponse.statusCode).isEqualTo(HttpStatusCode.valueOf(200))
 
         // then
         val businessEntities = restClient.get().uri("/persons").retrieve().body<List<Person>>()

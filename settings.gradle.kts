@@ -1,1 +1,1 @@
-rootProject.name = "testing-pitfalls"
+rootProject.name = "integration-testing-pitfalls"
