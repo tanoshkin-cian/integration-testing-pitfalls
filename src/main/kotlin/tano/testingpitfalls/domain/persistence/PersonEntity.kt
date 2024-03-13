@@ -1,9 +1,6 @@
 package tano.testingpitfalls.domain.persistence
 
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
+import jakarta.persistence.*
 
 
 @Entity
@@ -13,7 +10,10 @@ class PersonEntity(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null,
 
-    var name: String
+    var name: String,
+
+    @Enumerated(EnumType.STRING)
+    var status: PersonStatus = PersonStatus.LEAD,
 
     ) {
     override fun equals(other: Any?): Boolean {
@@ -28,4 +28,9 @@ class PersonEntity(
     override fun hashCode(): Int {
         return id?.hashCode() ?: 0
     }
+}
+
+enum class PersonStatus {
+    LEAD,
+    CLIENT,
 }

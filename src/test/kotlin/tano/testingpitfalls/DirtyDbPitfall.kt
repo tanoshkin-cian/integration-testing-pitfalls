@@ -1,4 +1,4 @@
-package tano.testingpitfalls.dirtydb
+package tano.testingpitfalls
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.*
@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.server.LocalServerPort
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection
 import org.springframework.http.HttpStatusCode
+import org.springframework.test.context.ActiveProfiles
 import org.springframework.web.client.RestClient
 import org.springframework.web.client.body
 import org.springframework.web.client.toEntity
@@ -21,6 +22,7 @@ import tano.testingpitfalls.test.SystemUnderTest
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Testcontainers
 @TestMethodOrder(MethodOrderer.MethodName::class) // in order to reproduce assertion problem in a stable way
+@ActiveProfiles("test")
 class DirtyDbPitfall {
 
     @LocalServerPort

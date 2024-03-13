@@ -2,6 +2,7 @@ package tano.testingpitfalls.controller
 
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import tano.testingpitfalls.domain.web.ModifyStatusRequest
 import tano.testingpitfalls.domain.web.Person
 import tano.testingpitfalls.service.PersonService
 import tano.testingpitfalls.service.mapping.PersonMapper
@@ -29,6 +30,12 @@ class PersonsController(
     fun findAllPersons(): ResponseEntity<List<Person>> {
         val allPersons = personService.findAllPersons().map { personMapper.mapToWebFormat(it) }
         return ResponseEntity.ok(allPersons)
+    }
+
+    @PatchMapping("/{personId}")
+    fun modifyStatus(@PathVariable personId: Long, @RequestBody modifyPersonRequest: ModifyStatusRequest) {
+        val newPersonStatus = personMapper.map(modifyPersonRequest.status)
+        personService.modifyPersonStatus(personId = personId, newPersonStatus = newPersonStatus)
     }
 
     @DeleteMapping("/{personId}")
