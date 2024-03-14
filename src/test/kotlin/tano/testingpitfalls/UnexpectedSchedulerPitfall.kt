@@ -24,7 +24,7 @@ import tano.testingpitfalls.test.SystemUnderTest
 //        properties = ["scheduler.disabled=true"]
 )
 @Testcontainers
-class SchedulerStartedAtTheWrongTimePitfall {
+class UnexpectedSchedulerPitfall {
 
     @LocalServerPort
     private var serverPort: Int = 0
