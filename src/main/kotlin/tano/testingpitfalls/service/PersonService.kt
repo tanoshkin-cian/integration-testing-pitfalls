@@ -10,7 +10,8 @@ import tano.testingpitfalls.repository.PersonEntityRepository
 
 @Service
 class PersonService(
-    private val personEntityRepository: PersonEntityRepository
+    private val personEntityRepository: PersonEntityRepository,
+    private val greetingService: GreetingService,
 ) {
 
     fun savePerson(person: PersonEntity): PersonEntity {
@@ -26,9 +27,14 @@ class PersonService(
     }
 
     @Transactional
-    fun modifyPersonStatus(personId: Long, newPersonStatus: PersonStatus) {
-        val foundPerson = personEntityRepository.findByIdOrNull(id = personId) ?: throw IllegalInputDataException("No person with ID $personId found")
-        foundPerson.status = newPersonStatus
+    fun modifyPersonStatus(personId: Long, newPersonStatus: PersonStatus): PersonEntity {
+        val personForModification = personEntityRepository.findByIdOrNull(id = personId) ?: throw IllegalInputDataException("No person with ID $personId found")
+        personForModification.status = newPersonStatus
+        if (newPersonStatus == PersonStatus.CLIENT) {
+            val greetingSent = greetingService.greet(name = personForModification.name)
+            personForModification.greetingSent = greetingSent
+        }
+        return personForModification
     }
 
     @Transactional

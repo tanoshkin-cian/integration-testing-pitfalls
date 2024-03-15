@@ -33,9 +33,11 @@ class PersonsController(
     }
 
     @PatchMapping("/{personId}")
-    fun modifyStatus(@PathVariable personId: Long, @RequestBody modifyPersonRequest: ModifyStatusRequest) {
+    fun modifyStatus(@PathVariable personId: Long, @RequestBody modifyPersonRequest: ModifyStatusRequest): ResponseEntity<Person> {
         val newPersonStatus = personMapper.map(modifyPersonRequest.status)
-        personService.modifyPersonStatus(personId = personId, newPersonStatus = newPersonStatus)
+        val modifiedPerson = personService.modifyPersonStatus(personId = personId, newPersonStatus = newPersonStatus)
+        val responseBody = personMapper.mapToWebFormat(person = modifiedPerson)
+        return ResponseEntity.ok(responseBody)
     }
 
     @DeleteMapping("/{personId}")

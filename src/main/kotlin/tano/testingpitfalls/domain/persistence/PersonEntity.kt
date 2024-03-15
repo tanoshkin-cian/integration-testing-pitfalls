@@ -15,6 +15,8 @@ class PersonEntity(
     @Enumerated(EnumType.STRING)
     var status: PersonStatus = PersonStatus.LEAD,
 
+    var greetingSent: Boolean = false
+
     ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

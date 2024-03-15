@@ -15,13 +15,13 @@ class PersonMapper {
     }
 
     fun mapToWebFormat(person: PersonEntity): Person {
-        return Person(id = person.id, name = person.name)
+        return Person(id = person.id, name = person.name, greetingMessageSent = person.greetingSent)
     }
 
     fun map(status: PersonStatus): tano.testingpitfalls.domain.persistence.PersonStatus {
         return when (status) {
             PersonStatus.LEAD ->  tano.testingpitfalls.domain.persistence.PersonStatus.LEAD
-            PersonStatus.CLIENT ->  tano.testingpitfalls.domain.persistence.PersonStatus.LEAD
+            PersonStatus.CLIENT ->  tano.testingpitfalls.domain.persistence.PersonStatus.CLIENT
         }
     }
 
