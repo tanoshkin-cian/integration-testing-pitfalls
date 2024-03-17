@@ -40,6 +40,13 @@ class PersonsController(
         return ResponseEntity.ok(responseBody)
     }
 
+    @GetMapping("/{personId}")
+    fun getPerson(@PathVariable personId: Long): ResponseEntity<Person> {
+        val person = personService.findPerson(personId = personId)
+        val responseBody = personMapper.mapToWebFormat(person = person)
+        return ResponseEntity.ok(responseBody)
+    }
+
     @DeleteMapping("/{personId}")
     fun removePerson(@PathVariable personId: Long) {
         personService.removePerson(personId = personId)

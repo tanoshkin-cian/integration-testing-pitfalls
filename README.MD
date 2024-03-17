@@ -18,3 +18,8 @@ to alter (eg remove or add).
         restClient = RestClient.create("http://localhost:$serverPort")
     }
 ```
+# Running locally
+Use the local profile to run the application. 
+```shell
+./gradlew bootRun -Dspring.profiles.active=local
+```

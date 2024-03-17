@@ -18,6 +18,10 @@ class PersonService(
         return personEntityRepository.save(person)
     }
 
+    fun findPerson(personId: Long): PersonEntity {
+        return personEntityRepository.findByIdOrNull(id = personId) ?: throw IllegalInputDataException("No person with ID $personId found")
+    }
+
     fun findAllPersons(): List<PersonEntity> {
         return personEntityRepository.findAll()
     }
@@ -35,6 +39,17 @@ class PersonService(
             personForModification.greetingSent = greetingSent
         }
         return personForModification
+    }
+
+    @Transactional
+    fun accrueWelcomeBonuses(personId: Long): Long {
+        val personForModification = personEntityRepository.findByIdOrNull(id = personId) ?: throw IllegalInputDataException("No person with ID $personId found")
+        if (personForModification.status != PersonStatus.CLIENT) {
+            throw IllegalInputDataException("Person with ID $personId is not a client")
+        }
+        personForModification.bonusPoints += 100
+        return personForModification.bonusPoints
+
     }
 
     @Transactional

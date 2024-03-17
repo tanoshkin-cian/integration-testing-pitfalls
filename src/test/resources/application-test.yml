@@ -1,2 +1,17 @@
 scheduler:
   disabled: true
+spring:
+  cloud:
+    function:
+      definition: processEvents;testProcessEvents
+    stream:
+      bindings:
+        processEvents-in-0:
+          group: ${spring.application.name}
+          destination: events
+        processEvents-out-0:
+          destination: events
+        events-out-0:
+          destination: events
+        events-in-0:
+          destination: events

@@ -1,4 +1,16 @@
 spring:
+  application:
+    name: integration-testing-pitfalls
   jpa:
     hibernate:
       ddl-auto: create
+  cloud:
+    function:
+      definition: processEvents
+    stream:
+      bindings:
+        processEvents-in-0:
+          group: ${spring.application.name}
+          destination: events
+        processEvents-out-0:
+          destination: events

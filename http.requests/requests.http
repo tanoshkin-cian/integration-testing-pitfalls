@@ -1,16 +1,25 @@
 ### Entity creation request
-POST http://localhost:8080/businessEntities
+POST http://localhost:8080/persons
 Accept: application/json
-Content-type: application/json
+Content-Type: application/json
 
 {
-  "field": "value"
+  "name": "John"
 }
 
 ### Get all entities
-GET http://localhost:8080/businessEntities
+GET http://localhost:8080/persons
 Accept: application/json
 
 ### Get entity by ID
-GET http://localhost:8080/businessEntities/{{entityId}}
+GET http://localhost:8080/persons/{{entityId}}
 Accept: application/json
+
+### Modify status
+PATCH http://localhost:8080/persons/{{entityId}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "status": "CLIENT"
+}
