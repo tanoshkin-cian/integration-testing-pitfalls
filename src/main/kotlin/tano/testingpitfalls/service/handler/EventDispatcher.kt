@@ -8,9 +8,9 @@ class EventDispatcher(
     private val handlers: Map<String, EventHandler>
 ) {
 
-    fun processEvent(event: Event): Event? {
+    fun processEvent(event: Event) {
         val type = event.type
-        return handlers[type]?.handleEvent(event) ?: return null
+        handlers[type]?.handleEvent(event)
     }
 
 }

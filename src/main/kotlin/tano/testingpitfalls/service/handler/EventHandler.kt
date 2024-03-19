@@ -4,6 +4,6 @@ import tano.testingpitfalls.domain.event.Event
 
 interface EventHandler {
 
-    fun handleEvent(event: Event): Event
+    fun handleEvent(event: Event)
 
 }

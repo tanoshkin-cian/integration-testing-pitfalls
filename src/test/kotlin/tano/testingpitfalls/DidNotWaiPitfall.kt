@@ -1,6 +1,8 @@
 package tano.testingpitfalls
 
 import org.assertj.core.api.Assertions.assertThat
+import org.awaitility.kotlin.await
+import org.awaitility.kotlin.untilAsserted
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.fail
@@ -72,7 +74,10 @@ class DidNotWaiPitfall {
         externalSystemsEmulator.sendEvent(eventType = EVENT_TYPE_LOYALTY_PROGRAM_ENTERED, userId = createdId)
 
         // then
-        val resultingPerson = restClient.get().uri("/persons/{createdId}", createdId).retrieve().toEntity<Person>()
-        assertThat(resultingPerson.body?.bonusBalance).isEqualTo(100)
+//      TODO: uncomment to fix the tests
+//        await untilAsserted {
+            val resultingPerson = restClient.get().uri("/persons/{createdId}", createdId).retrieve().toEntity<Person>()
+            assertThat(resultingPerson.body?.bonusBalance).isEqualTo(100)
+//        }
     }
 }

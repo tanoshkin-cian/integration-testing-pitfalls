@@ -40,6 +40,7 @@ dependencies {
 	testImplementation("org.testcontainers:junit-jupiter")
 	testImplementation("org.testcontainers:postgresql")
 	testImplementation("org.testcontainers:kafka")
+	testImplementation("org.awaitility:awaitility-kotlin:4.2.1")
 	developmentOnly("org.springframework.boot:spring-boot-docker-compose")
 }
 

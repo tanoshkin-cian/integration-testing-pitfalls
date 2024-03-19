@@ -3,7 +3,7 @@ scheduler:
 spring:
   cloud:
     function:
-      definition: processEvents;testProcessEvents
+      definition: processEvents
     stream:
       bindings:
         processEvents-in-0:
@@ -13,5 +13,4 @@ spring:
           destination: events
         events-out-0:
           destination: events
-        events-in-0:
-          destination: events
+
