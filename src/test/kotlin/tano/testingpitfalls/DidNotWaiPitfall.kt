@@ -67,8 +67,9 @@ class DidNotWaiPitfall {
 
         val modificationResponse =
             restClient.patch().uri("/persons/{createdId}", createdId).body(mapOf("status" to "CLIENT")).retrieve()
-                .toBodilessEntity()
+                .toEntity<Person>()
         assertThat(modificationResponse.statusCode).isEqualTo(HttpStatusCode.valueOf(200))
+        assertThat(modificationResponse.body?.bonusBalance).isEqualTo(0)
 
         // when
         externalSystemsEmulator.sendEvent(eventType = EVENT_TYPE_LOYALTY_PROGRAM_ENTERED, userId = createdId)

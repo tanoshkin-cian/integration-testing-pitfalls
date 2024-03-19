@@ -12,5 +12,3 @@ spring:
         processEvents-in-0:
           group: ${spring.application.name}
           destination: events
-        processEvents-out-0:
-          destination: events

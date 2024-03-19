@@ -13,9 +13,8 @@ class LoyaltyProgramEnteredHandler(
 
     private val logger = KotlinLogging.logger {}
     override fun handleEvent(event: Event) {
-        logger.info { "Handling event $event" }
         val personId = event.personId
         val welcomeBonuses = personService.accrueWelcomeBonuses(personId = personId)
-        logger.info { "Successfully handed event $event, added $welcomeBonuses" }
+        logger.info { "Successfully handled event $event, added $welcomeBonuses" }
     }
 }
