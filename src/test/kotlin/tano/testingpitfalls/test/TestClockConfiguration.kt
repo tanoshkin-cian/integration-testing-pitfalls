@@ -12,7 +12,7 @@ class TestClockConfiguration {
 
     @Bean
     @Primary
-    fun testClock(): Clock {
+    fun workingHoursClock(): Clock {
         val workingTime = ZonedDateTime.now().withHour(10).withMinute(0).withSecond(0).withNano(0)
         return Clock.fixed(workingTime.toInstant(), ZoneId.systemDefault())
     }
