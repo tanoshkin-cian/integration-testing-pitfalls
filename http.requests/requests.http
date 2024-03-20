@@ -23,3 +23,12 @@ Accept: application/json
 {
   "status": "CLIENT"
 }
+
+### Confirm email
+POST http://localhost:8080/persons/{{entityId}}/email
+Content-Type: application/json
+Accept: application/json
+
+{
+  "email": "john@domain.com"
+}

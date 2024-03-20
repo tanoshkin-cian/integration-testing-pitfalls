@@ -41,6 +41,7 @@ dependencies {
 	testImplementation("org.testcontainers:postgresql")
 	testImplementation("org.testcontainers:kafka")
 	testImplementation("org.awaitility:awaitility-kotlin:4.2.1")
+	testImplementation("com.ninja-squad:springmockk:4.0.2")
 	developmentOnly("org.springframework.boot:spring-boot-docker-compose")
 }
 

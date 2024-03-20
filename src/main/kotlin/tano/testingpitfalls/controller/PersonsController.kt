@@ -2,6 +2,8 @@ package tano.testingpitfalls.controller
 
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import tano.testingpitfalls.domain.web.AddEmailRequest
+import tano.testingpitfalls.domain.web.EmailInfo
 import tano.testingpitfalls.domain.web.ModifyStatusRequest
 import tano.testingpitfalls.domain.web.Person
 import tano.testingpitfalls.service.PersonService
@@ -12,6 +14,7 @@ import tano.testingpitfalls.service.mapping.PersonMapper
 class PersonsController(
     private val personService: PersonService,
     private val personMapper: PersonMapper,
+    private val emailMapper: EmailMapper,
 ) {
 
     @RequestMapping(
@@ -24,6 +27,13 @@ class PersonsController(
         val savedPerson = personService.savePerson(person = validatedPerson)
         val resultingPerson = personMapper.mapToWebFormat(person = savedPerson)
         return ResponseEntity.ok(resultingPerson)
+    }
+
+    @PostMapping("/{personId}/email")
+    fun confirmEmail(@PathVariable personId: Long, @RequestBody addEmailRequest: AddEmailRequest): ResponseEntity<EmailInfo> {
+        val email = personService.confirmEmail(email = addEmailRequest.email, personId = personId)
+        val emailInfo = emailMapper.mapToWebFormat(email = email)
+        return ResponseEntity.ok(emailInfo)
     }
 
     @GetMapping

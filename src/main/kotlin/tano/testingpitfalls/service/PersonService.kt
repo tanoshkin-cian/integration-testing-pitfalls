@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import tano.testingpitfalls.domain.IllegalInputDataException
+import tano.testingpitfalls.domain.persistence.EmailInformation
 import tano.testingpitfalls.domain.persistence.PersonEntity
 import tano.testingpitfalls.domain.persistence.PersonStatus
 import tano.testingpitfalls.repository.PersonEntityRepository
@@ -12,6 +13,7 @@ import tano.testingpitfalls.repository.PersonEntityRepository
 class PersonService(
     private val personEntityRepository: PersonEntityRepository,
     private val greetingService: GreetingService,
+    private val confirmationIdGenerator: ConfirmationIdGenerator,
 ) {
 
     fun savePerson(person: PersonEntity): PersonEntity {
@@ -55,6 +57,22 @@ class PersonService(
     @Transactional
     fun removeLeads(): Long {
         return personEntityRepository.deleteByStatusEquals(status = PersonStatus.LEAD)
+    }
+
+    @Transactional
+    fun confirmEmail(personId: Long, email: String): EmailInformation {
+        val foundPerson = personEntityRepository.findByIdOrNull(id = personId) ?: throw IllegalInputDataException("No person with ID $personId found")
+        return foundPerson.emails.getOrElse(email) {
+            val confirmationId = confirmationIdGenerator.generateConfirmationId()
+            val emailInformation = EmailInformation(
+                email = email,
+                confirmationId = confirmationId,
+                isVerified = false
+            )
+            foundPerson.emails[email] = emailInformation
+            // We will skip the confirmation logic for now
+            return emailInformation
+        }
     }
 
 }

@@ -20,6 +20,10 @@ class PersonEntity(
     ) {
     var bonusPoints: Long = 0
 
+    @ElementCollection
+    var emails: MutableMap<String, EmailInformation> = mutableMapOf()
+
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -38,3 +42,12 @@ enum class PersonStatus {
     LEAD,
     CLIENT,
 }
+
+
+
+@Embeddable
+data class EmailInformation(
+    var email: String,
+    var isVerified: Boolean,
+    var confirmationId: String,
+)
